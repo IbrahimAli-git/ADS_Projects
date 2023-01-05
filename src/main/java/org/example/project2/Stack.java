@@ -3,6 +3,7 @@ package org.example.project2;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+// https://sheffieldhallam-my.sharepoint.com/:w:/g/personal/cmsmo_hallam_shu_ac_uk/EebVkVr3KqxGnPvO0hWokmcB5JdLHZm634hWV7_WTJ145A?e=OZgSP4
 public class Stack<T> {
     private ArrayList<T> list;
     private int max;
@@ -48,9 +49,9 @@ public class Stack<T> {
         }
     }
 
-    public void printPlates() {
-        for (int i = 0; i < list.size(); i++) {
-            System.out.println(this.getClass().getSimpleName() + " " + list.get(i));
+    public void clear(Stack<T> stack){
+        while (!stack.isEmpty()){
+            stack.pop();
         }
     }
 }
