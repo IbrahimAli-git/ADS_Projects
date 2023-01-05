@@ -1,5 +1,8 @@
 package org.example.project3;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -12,6 +15,7 @@ public class SinglyLinkedList {
 
     private ArrayList<Integer> list;
     Node head;
+    public static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
     class Node {
         String name;
@@ -103,7 +107,11 @@ public class SinglyLinkedList {
         head.next4.next1 = new Node("Dallas", 50);
     }
 
-    public void searchForNeighbours(String cityName) {
+    public void searchForNeighbours() throws IOException {
+        String cityName;
+        System.out.println("Please enter in city name: ");
+        cityName = br.readLine();
+
         System.out.println("Cities on Route: ");
         if (head.name.equals(cityName)) {
             // NY
@@ -127,10 +135,15 @@ public class SinglyLinkedList {
             System.out.println(head.next3.next3.name);
         } else if (head.next4.name.equals(cityName)) {
             // Miami
-            System.out.println(head.next4.next1);
+            System.out.println(head.next4.next1.name);
         }
     }
-    public Node searchForCity(String nameOfCity) {
+
+    public Node searchForCity() throws IOException {
+        String nameOfCity;
+        System.out.println("Please enter in city name: ");
+        nameOfCity = br.readLine();
+
         Node current = null;
         if (head.name.equals(nameOfCity)) {
             // NY
@@ -159,7 +172,12 @@ public class SinglyLinkedList {
         return current;
     }
 
-    public void calculateDistance(String name) {
+    public void calculateDistance() throws IOException {
+        String name;
+        String name2;
+        System.out.println("Enter in City Names: ");
+        name = br.readLine();
+        name2 = br.readLine();
         int total = 0;
         Node node = new Node("New York");
         node.next1 = new Node("Chicago", 75);
@@ -170,28 +188,48 @@ public class SinglyLinkedList {
         System.out.println("$" + total);
     }
 
-    public void initPrice(String name1, String name2) {
+    public void initPrice(String name1, String name2) throws IOException {
         int total = 0;
-        Node node = searchForCity(name1);
-        total = total + (node.next1 != null && (!node.next1.name.equals(name2))? node.pricePerDistance : 0);
+        Node node = searchForCity();
+        total = total + (node.next1 != null && (!node.next1.name.equals(name2)) ? node.pricePerDistance : 0);
         total = total + (node.next2 != null && (!node.next2.name.equals(name2)) ? node.pricePerDistance : 0);
         total = total + (node.next3 != null && (!node.next3.name.equals(name2)) ? node.pricePerDistance : 0);
         total = total + (node.next4 != null && (!node.next4.name.equals(name2)) ? node.pricePerDistance : 0);
         System.out.println("$" + total);
     }
 
-    public static void main(String[] args) {
-        SinglyLinkedList list1 = new SinglyLinkedList();
-        list1.initHead();
-        list1.initNodes();
+    public static void main(String[] args) throws IOException {
+        SinglyLinkedList list = new SinglyLinkedList();
+        list.initHead();
+        list.initNodes();
+        menu(list);
+    }
 
-        Scanner sc = new Scanner(System.in);
-        String userInput = "";
+    public static void menu(SinglyLinkedList list) throws IOException {
+        int userInput;
+
         do {
-            System.out.println("Enter in city name: ");
-            userInput = sc.nextLine();
 
-            list1.calculateDistance(userInput);
-        } while (!userInput.equals("exit"));
+            System.out.println("1. Search For City");
+            System.out.println("2. Search For Neighbours");
+            System.out.println("3. Calculate Distance");
+            System.out.println("9. Exit");
+            userInput = Integer.parseInt(br.readLine());
+
+            switch (userInput) {
+                case 1:
+                    Node node = list.searchForCity();
+                    System.out.println(node != null ? node.name : "Doesn't Exist");
+                    break;
+                case 2:
+                    list.searchForNeighbours();
+                    break;
+                case 3:
+                    list.calculateDistance();
+                    break;
+                case 9:
+                    break;
+            }
+        } while (userInput != 9);
     }
 }
